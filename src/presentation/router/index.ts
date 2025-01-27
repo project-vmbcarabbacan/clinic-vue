@@ -1,26 +1,21 @@
 import { inject } from 'vue';
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { GetCurrentUser } from '@/domain/usecases/user/GetCurrentUser';
+import { RouterChildren } from '@/utils/RouterChildren';
 import { useUserStore } from '../store/UserStore';
-import HomeView from '../views/HomeView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    name: 'default',
+    redirect: './home',
+    component: () => import(/* webpackChunkName: "AthenticationSignin" */ '../views/TemplateView.vue'),
     meta: {
       requiresAuth: true,
     },
+    children: RouterChildren,
   },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-  },
+
   {
     path: '/sign-in',
     name: 'AthenticationSignin',
@@ -38,8 +33,16 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
 
   const getCurrentUser = inject('getCurrentUser') as GetCurrentUser;
-  const user = await userStore.currentUser(getCurrentUser);
-  next();
+  try {
+    if (to.meta.requiresAuth) {
+      const user = await userStore.currentUser(getCurrentUser);
+      if (!user) next({ name: 'AthenticationSignin' });
+      next();
+    }
+    next();
+  } catch (err) {
+    next({ name: 'AthenticationSignin' });
+  }
 });
 
 export default router;

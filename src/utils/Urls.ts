@@ -1,8 +1,16 @@
+import { useUserStore } from '@/presentation/store/UserStore';
+
 export default class Urls {
   /* secure */
   static readonly LOGIN: string = '/secure/login';
 
-  static readonly LOGOUT: string = '/secure/logout';
+  static LOGOUT(): string {
+    const userStore = useUserStore();
+    const userId = userStore.user?.id;
+    if (userId) return `/secure/logout/${userId}`;
+
+    return '';
+  }
 
   static readonly SIGNUP: string = '/secure/signup';
 

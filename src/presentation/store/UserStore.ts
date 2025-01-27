@@ -20,7 +20,7 @@ export const useUserStore = defineStore(Types.USER, {
 
       try {
         this.user = await getCurrentUser.execute();
-        console.log({ user: this.user })
+        return this.user;
       } catch (err) {
         this.error = (err as Error).message;
       } finally {

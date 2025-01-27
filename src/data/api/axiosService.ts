@@ -1,4 +1,5 @@
 /* eslint-disable */
+import router from '@/presentation/router';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -14,7 +15,7 @@ apiClient.interceptors.response.use(
   (response) => response.data,
   (error) => {
     if (error.response?.status === 401) {
-      console.error('Unauthorized');
+      // router.push({ name: 'AthenticationSignin' });
     }
 
     return Promise.reject(error);

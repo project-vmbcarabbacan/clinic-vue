@@ -36,7 +36,7 @@
             @click:append-inner="visible = !visible"
             class="align-left-error"
           ></v-text-field>
-
+          <span class="text-red">{{ authStore.error }}</span>
           <v-btn
             block
             small
@@ -64,8 +64,10 @@
 import { ref, inject } from 'vue';
 import { useAuthenticationStore } from '@/presentation/store/AuthenticationStore';
 import { Signin } from '@/domain/usecases/authentication/Signin';
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthenticationStore();
+const router = useRouter();
 
 const { signin } = authStore;
 const valid = ref(false);
@@ -80,7 +82,10 @@ const signIn = inject('signIn') as Signin;
 
 const submit = async () => {
   if (signIn) {
-    await authStore.login(signin, signIn);
+    const user = await authStore.login(signin, signIn);
+    if (!user) return;
+
+    if (!authStore.error) router.push({ name: 'default' });
   }
 };
 

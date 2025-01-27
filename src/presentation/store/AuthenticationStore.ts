@@ -1,9 +1,8 @@
 /* eslint-disable */
 import { defineStore } from 'pinia';
 import Types from '@/utils/Types';
-import { authenticationApi } from '@/data/api/AuthenticationApi';
 import { Signin } from '@/domain/usecases/authentication/Signin';
-import router from '../router';
+import { Logout } from '@/domain/usecases/authentication/Logout';
 import { ISignin } from '@/utils/Type';
 
 export const useAuthenticationStore = defineStore(Types.AUTHENTICATION, {
@@ -12,6 +11,7 @@ export const useAuthenticationStore = defineStore(Types.AUTHENTICATION, {
       username: '',
       password: '',
     },
+    error: '',
     loading: false,
   }),
 
@@ -21,21 +21,19 @@ export const useAuthenticationStore = defineStore(Types.AUTHENTICATION, {
       this.loading = true;
 
       try {
-        await signin.execute(credentials);
-        router.push({ name: 'home' });
-        return true;
+        this.error = '';
+        return await signin.execute(credentials);
       } catch (err: any) {
+        this.error = 'Invalid username and password'
         return err.response;
       } finally {
         this.loading = false
       }
     },
 
-    async logout() {
+    async logout(logout: Logout) {
       try {
-        await authenticationApi.signOut();
-        router.push({ name: 'signin' });
-
+        await logout.execute();
         return true;
       } catch (err: any) {
         return err.response;
