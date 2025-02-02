@@ -25,7 +25,7 @@ export abstract class AbstractUserRepository {
      * @type IUpdateUser
      * @returns IMessageRes
      */
-  abstract update(data: IUpdateUser): Promise<AxiosResponse<IMessageRes>>;
+  abstract update(data: IUpdateUser): Promise<void>;
 
   /**
      * change one field of user.
@@ -50,4 +50,13 @@ export abstract class AbstractUserRepository {
      * @returns IMessageRes
      */
   abstract achievementEdit(data: IAchievementUpdate): Promise<AxiosResponse<IMessageRes>>;
+
+  /**
+     * get user by id.
+     * @param userId
+     * @type string
+     * @returns IUserRes
+     */
+  abstract getUserByUserId(userId: string): Promise<AxiosResponse<IUserRes>>;
+
 }

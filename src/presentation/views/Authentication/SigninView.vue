@@ -16,7 +16,7 @@
             label="Username"
             type="username"
             :rules="[rules.username]"
-            prepend-icon="mdi-email"
+            prepend-icon="mdi-account"
             block
             required
             autocomplete="off"

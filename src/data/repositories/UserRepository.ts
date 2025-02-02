@@ -17,8 +17,8 @@ export class UserRepository implements AbstractUserRepository {
     return await userApi.create(data);
   }
 
-  async update(data: IUpdateUser): Promise<AxiosResponse<IMessageRes>> {
-    return await userApi.update(data);
+  async update(data: IUpdateUser): Promise<void> {
+    await userApi.update(data);
   }
 
   async change(data: IChange, type: string): Promise<AxiosResponse<IMessageRes>> {
@@ -31,5 +31,9 @@ export class UserRepository implements AbstractUserRepository {
 
   async achievementEdit(data: IAchievementUpdate): Promise<AxiosResponse<IMessageRes>> {
     return await userApi.achievementEdit(data);
+  }
+
+  async getUserByUserId(type: string): Promise<AxiosResponse<IUserRes>> {
+    return await userApi.getUserByUserId(type);
   }
 }

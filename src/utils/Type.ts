@@ -1,3 +1,4 @@
+/* eslint-disable */
 export type ISignin = {
   username: string;
   password: string
@@ -35,12 +36,21 @@ export type IChange = {
   value: string;
 }
 
+export type Achievement = {
+  _id?: string;
+  date: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+
 export type IAchievementAdd = {
   user_id: string;
   title: string;
   description: string;
   date: string;
-  image: string;
+  image: File | null;
 }
 
 export type IAchievementUpdate = {
@@ -65,6 +75,13 @@ export type IUpdateUser = {
   biography: string,
   contact_number: Array<INumber>;
 }
+type IInformation = {
+  title: string;
+  status_type: string;
+  address: string;
+  biography: string;
+  contact_number: Array<INumber>;
+}
 
 export type ICurrentUser = {
   status: string;
@@ -75,6 +92,8 @@ export type ICurrentUser = {
   email: string;
   username: string;
   role: number;
+  information: IInformation
+  achievements: Array<Achievement>
 }
 
 export type IUserRes = {
@@ -99,3 +118,4 @@ export type IUser = {
   role: number;
   status: string;
 }
+

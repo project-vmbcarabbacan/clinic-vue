@@ -4,13 +4,13 @@ import { AbstractUserRepository } from '@/data/repositories/abstracts/AbstractUs
 import { User } from '../../models/User';
 
 @injectable()
-export class GetCurrentUser {
+export class GetUserById {
   constructor(
     @inject('AbstractUserRepository') private userRepository: AbstractUserRepository,
   ) { }
 
-  async execute(): Promise<User> {
-    const userData = await this.userRepository.currentUser();
+  async execute(userId: string): Promise<User> {
+    const userData = await this.userRepository.getUserByUserId(userId);
     return new User(
       userData.data.user._id,
       userData.data.user.name,

@@ -30,4 +30,10 @@ export default class Urls {
 
     return `/user/change-${type}`;
   }
+
+  static GET_USER_ID(userId: string): string {
+    if (!userId) throw new Error('User id parameter is required');
+
+    return `/user/user-by-id/${userId}`;
+  }
 }

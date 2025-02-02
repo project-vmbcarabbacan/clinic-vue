@@ -37,6 +37,10 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresAuth) {
       const user = await userStore.currentUser(getCurrentUser);
       if (!user) next({ name: 'AthenticationSignin' });
+
+      const { roles } = to.meta as { roles?: number[] };
+      if (roles && !roles.includes(user?.role || 0)) next({ name: 'Home' });
+
       next();
     }
     next();
