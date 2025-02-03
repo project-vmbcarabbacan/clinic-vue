@@ -5,17 +5,25 @@ import { GetCurrentUser } from '@/domain/usecases/user/GetCurrentUser';
 import { GetUserById } from '@/domain/usecases/user/GetUserById';
 import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
 import Types from '@/utils/Types';
-import { IUpdateUser } from '@/utils/Type';
+import { IUpdateUser, IAchievementAdd, IAchievementUpdate } from '@/utils/Type';
 import { User } from '@/domain/models/User';
 import { Achievement } from '@/domain/models/Achievement';
 import { UpdateData } from '@/domain/usecases/user/UpdateData';
+import { AddAchievement } from '@/domain/usecases/user/AddAchievement';
+import { EditAchievement } from '@/domain/usecases/user/EditAchievement';
 import moment from 'moment';
 
 export const useUserStore = defineStore(Types.USER, {
   state: () => ({
     user: {} as User,
     edit: {} as User,
-    achievement: {} as Achievement,
+    achievement: {
+      user_id: '',
+      title: '',
+      description: '',
+      date: '',
+      image: null,
+    } as Achievement,
     loading: false,
     error: null as string | null,
     has_error: false,
@@ -74,11 +82,11 @@ export const useUserStore = defineStore(Types.USER, {
       }
     },
 
-    async getAchievementById(achievement_id: string, getAchievementById: GetAchievementById) {
+    async getAchievementById(user_id: string, achievement_id: string, getAchievementById: GetAchievementById) {
       this.loading = true;
       this.has_error = false;
       try {
-        let response = await getAchievementById.execute(achievement_id);
+        let response = await getAchievementById.execute(user_id, achievement_id);
         this.achievement = response;
         return response;
       } catch (error) {
@@ -100,6 +108,32 @@ export const useUserStore = defineStore(Types.USER, {
         this.update_loader = false;
       }
 
+    },
+
+    async addAchievement(data: IAchievementAdd, addAchievement: AddAchievement) {
+      this.update_loader = true;
+      this.error = null;
+
+      try {
+        await addAchievement.execute(data);
+      } catch (err) {
+        this.error = (err as Error).message;
+      } finally {
+        this.update_loader = false;
+      }
+    },
+
+    async editAchievement(data: IAchievementUpdate, editAchievement: EditAchievement) {
+      this.update_loader = true;
+      this.error = null;
+
+      try {
+        await editAchievement.execute(data);
+      } catch (err) {
+        this.error = (err as Error).message;
+      } finally {
+        this.update_loader = false;
+      }
     }
 
   },

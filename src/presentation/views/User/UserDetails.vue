@@ -67,7 +67,7 @@
                 <v-list-item v-bind="props">
                   <v-list-item-content>
                     <v-list-item-title>
-                      {{ achievement.title }} - {{ achievement.date }}
+                      <strong>{{ achievement.title }}</strong> - {{ achievement.date }}
                     </v-list-item-title>
                     <v-list-item-subtitle>{{ achievement.description }} <v-btn
                   v-if="isHovering"

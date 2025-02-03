@@ -1,15 +1,16 @@
 /* eslint-disable */
 import { inject, injectable } from 'inversify';
 import { AbstractUserRepository } from '@/data/repositories/abstracts/AbstractUserRepository';
-import { IAchievementAdd } from '@/utils/Type';
+import { Achievement } from '@/domain/models/Achievement';
+import { IAchievementUpdate } from '@/utils/Type';
 
 @injectable()
-export class AddAchievement {
+export class EditAchievement {
   constructor(
     @inject('AbstractUserRepository') private userRepository: AbstractUserRepository,
   ) { }
 
-  async execute(achievementData: IAchievementAdd): Promise<void> {
-    await this.userRepository.achievementAdd(achievementData);
+  async execute(achievementData: IAchievementUpdate): Promise<void> {
+    await this.userRepository.achievementEdit(achievementData);
   }
 }

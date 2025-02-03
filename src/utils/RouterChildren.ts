@@ -83,7 +83,11 @@ export const RouterChildren = [
     beforeEnter: async (to: any, from: any, next: Function) => {
       const getAchievementById = inject('getAchievementById') as GetAchievementById;
       const userStore = useUserStore();
-      await userStore.getAchievementById(to.params.user_id, getAchievementById);
+      await userStore.getAchievementById(
+        to.params.user_id,
+        to.params.achievement_id,
+        getAchievementById,
+      );
       if (userStore.has_error) next(from.fullPath);
 
       next();

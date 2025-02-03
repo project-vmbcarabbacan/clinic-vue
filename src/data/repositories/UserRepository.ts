@@ -3,7 +3,7 @@ import { injectable } from 'inversify';
 import { AxiosResponse } from 'axios';
 import {
   ISignup, IUpdateUser, IAchievementAdd, IAchievementUpdate, IChange, IUserRes, IMessageRes,
-  Achievement,
+  IAchievementRes,
 } from '@/utils/Type';
 import { AbstractUserRepository } from './abstracts/AbstractUserRepository';
 import { userApi } from '../api/UserApi';
@@ -39,7 +39,7 @@ export class UserRepository implements AbstractUserRepository {
     return await userApi.getUserByUserId(type);
   }
 
-  async getAchievementById(achievementId: string): Promise<AxiosResponse<Achievement>> {
-    return await userApi.getAchievementById(achievementId);
+  async getAchievementById(userid: string, achievementId: string): Promise<AxiosResponse<IAchievementRes>> {
+    return await userApi.getAchievementById(userid, achievementId);
   }
 }

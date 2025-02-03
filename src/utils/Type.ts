@@ -39,6 +39,7 @@ export type IChange = {
 export type Achievement = {
   _id?: string;
   id?: string;
+  user_id: string;
   date: string;
   title: string;
   description: string;
@@ -100,6 +101,11 @@ export type ICurrentUser = {
 export type IUserRes = {
   message: string;
   user: ICurrentUser;
+}
+
+export type IAchievementRes = {
+  message: string;
+  achievement: Achievement;
 }
 
 export type IMessageRes = {

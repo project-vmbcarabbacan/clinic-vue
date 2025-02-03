@@ -55,9 +55,9 @@ export const userApi = {
       return error.response
     }
   },
-  getAchievementById: async (achievementId: string) => {
+  getAchievementById: async (userid: string, achievementId: string) => {
     try {
-      return await apiClient.get(Urls.GET_ACHIEVEMENT_ID(achievementId))
+      return await apiClient.get(Urls.GET_ACHIEVEMENT_ID(userid, achievementId))
     } catch (error: any) {
       return error.response
     }

@@ -55,20 +55,15 @@ import {
   onMounted, ref, watch, inject,
 } from 'vue';
 import { useDate } from 'vuetify';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import moment from 'moment';
-import { useRouter } from 'vue-router';
+import { useUserStore } from '../../store/UserStore';
 
 const route = useRoute();
 const adapter = useDate();
+const userStore = useUserStore();
 const valid = ref(false); // Track form validity
-const achievement = ref({
-  user_id: route.params.user_id.toString(),
-  title: '',
-  description: '',
-  date: '',
-  image: null, // Store the file
-});
+const { achievement, error } = userStore;
 const router = useRouter();
 const date = ref('');
 const menu = ref(false);
@@ -83,9 +78,8 @@ const rules = {
   },
 };
 
-// eslint-disable-next-line no-undef
 watch(() => date.value, (newDate) => {
-  achievement.value.date = moment(newDate).format('YYYY-MM-DD');
+  achievement.date = moment(newDate).format('YYYY-MM-DD');
 });
 
 onMounted(() => {
@@ -93,16 +87,26 @@ onMounted(() => {
 });
 
 const addAchievement = inject('addAchievement');
+const editAchievement = inject('editAchievement');
 
 async function handleSubmit() {
-    await addAchievement.execute(achievement.value);
-    router.go(-1);
+  if(achievement.id) {
+    await userStore.editAchievement(achievement, editAchievement);
+  } else {
+    achievement.user_id = route.params.user_id
+    await userStore.addAchievement(achievement, addAchievement);
+  }
+    if(!error) {
+      userStore.$reset();
+      router.go(-1);
+    }
+
 }
 
 async function convertToBase64(file) {
       const reader = new FileReader();
       reader.onloadend = async() => {
-        achievement.value.image = reader.result
+        achievement.image = reader.result
         return reader.result.split(',')[1]; // Remove data URL prefix
       };
       reader.readAsDataURL(file);

@@ -37,9 +37,9 @@ export default class Urls {
     return `/user/user-by-id/${userId}`;
   }
 
-  static GET_ACHIEVEMENT_ID(achievementId: string): string {
+  static GET_ACHIEVEMENT_ID(userid: string, achievementId: string): string {
     if (!achievementId) throw new Error('Achievement id parameter is required');
 
-    return `/user/achievement-by-id/${achievementId}`;
+    return `/user/achievement-by-id/${userid}/${achievementId}`;
   }
 }
