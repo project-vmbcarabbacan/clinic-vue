@@ -73,7 +73,9 @@
                   v-if="isHovering"
                   density="compact"
                   icon="mdi-pencil"
-                  :to="{name: 'AchievemtnAdd', params: { user_id: user.id } }"
+                  :to="{name: 'AchievemtnEdit',
+                    params: { user_id: user.id, achievement_id: achievement.id! }
+                  }"
                   size="small"
                 /></v-list-item-subtitle>
                   </v-list-item-content>

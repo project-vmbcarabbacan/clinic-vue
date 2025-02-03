@@ -3,12 +3,14 @@ import { injectable } from 'inversify';
 import { AxiosResponse } from 'axios';
 import {
   ISignup, IUpdateUser, IAchievementAdd, IAchievementUpdate, IChange, IUserRes, IMessageRes,
+  Achievement,
 } from '@/utils/Type';
 import { AbstractUserRepository } from './abstracts/AbstractUserRepository';
 import { userApi } from '../api/UserApi';
 
 @injectable()
 export class UserRepository implements AbstractUserRepository {
+
   async currentUser(): Promise<AxiosResponse<IUserRes>> {
     return await userApi.currentUser();
   }
@@ -35,5 +37,9 @@ export class UserRepository implements AbstractUserRepository {
 
   async getUserByUserId(type: string): Promise<AxiosResponse<IUserRes>> {
     return await userApi.getUserByUserId(type);
+  }
+
+  async getAchievementById(achievementId: string): Promise<AxiosResponse<Achievement>> {
+    return await userApi.getAchievementById(achievementId);
   }
 }

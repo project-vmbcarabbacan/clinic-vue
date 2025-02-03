@@ -38,6 +38,7 @@ export type IChange = {
 
 export type Achievement = {
   _id?: string;
+  id?: string;
   date: string;
   title: string;
   description: string;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {
-  ISignup, IUpdateUser, IAchievementAdd, IAchievementUpdate, IChange, IUserRes, IMessageRes,
+  ISignup, IUpdateUser, IAchievementAdd, IAchievementUpdate, IChange, IUserRes, IMessageRes, Achievement,
 } from '@/utils/Type';
 import { AxiosResponse } from 'axios';
 
@@ -58,5 +58,13 @@ export abstract class AbstractUserRepository {
      * @returns IUserRes
      */
   abstract getUserByUserId(userId: string): Promise<AxiosResponse<IUserRes>>;
+
+  /**
+     * get achievement by id.
+     * @param achievementId
+     * @type string
+     * @returns Achievement
+     */
+  abstract getAchievementById(achievementId: string): Promise<AxiosResponse<Achievement>>;
 
 }

@@ -1,6 +1,7 @@
 import { inject } from 'vue';
 // import { Route } from 'vue-router';
 import { GetUserById } from '@/domain/usecases/user/GetUserById';
+import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
 import { useUserStore } from '@/presentation/store/UserStore';
 import Users from './Users';
 
@@ -63,6 +64,26 @@ export const RouterChildren = [
       const getUserById = inject('getUserById') as GetUserById;
       const userStore = useUserStore();
       await userStore.getUserById(to.params.user_id, getUserById);
+      if (userStore.has_error) next(from.fullPath);
+
+      next();
+    },
+  },
+  {
+    path: '/user/achievement/edit/:user_id/:achievement_id',
+    name: 'AchievemtnEdit',
+    icon: '',
+    class: 'text-start',
+    show: false,
+    component: () => import(/* webpackChunkName: "RouteEditAchievement" */ '../presentation/views/User/AddAchievements.vue'),
+    meta: {
+      roles: <Array<number>>[Users.ADMIN, Users.RECEPTION, Users.DOCTOR],
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    beforeEnter: async (to: any, from: any, next: Function) => {
+      const getAchievementById = inject('getAchievementById') as GetAchievementById;
+      const userStore = useUserStore();
+      await userStore.getAchievementById(to.params.user_id, getAchievementById);
       if (userStore.has_error) next(from.fullPath);
 
       next();

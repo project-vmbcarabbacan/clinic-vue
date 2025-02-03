@@ -3,9 +3,11 @@
 import { defineStore } from 'pinia';
 import { GetCurrentUser } from '@/domain/usecases/user/GetCurrentUser';
 import { GetUserById } from '@/domain/usecases/user/GetUserById';
+import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
 import Types from '@/utils/Types';
 import { IUpdateUser } from '@/utils/Type';
 import { User } from '@/domain/models/User';
+import { Achievement } from '@/domain/models/Achievement';
 import { UpdateData } from '@/domain/usecases/user/UpdateData';
 import moment from 'moment';
 
@@ -13,6 +15,7 @@ export const useUserStore = defineStore(Types.USER, {
   state: () => ({
     user: {} as User,
     edit: {} as User,
+    achievement: {} as Achievement,
     loading: false,
     error: null as string | null,
     has_error: false,
@@ -65,6 +68,20 @@ export const useUserStore = defineStore(Types.USER, {
         this.edit = response;
         return response;
       } catch (err) {
+        this.has_error = true;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async getAchievementById(achievement_id: string, getAchievementById: GetAchievementById) {
+      this.loading = true;
+      this.has_error = false;
+      try {
+        let response = await getAchievementById.execute(achievement_id);
+        this.achievement = response;
+        return response;
+      } catch (error) {
         this.has_error = true;
       } finally {
         this.loading = false;
