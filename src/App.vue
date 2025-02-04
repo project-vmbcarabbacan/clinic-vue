@@ -1,6 +1,26 @@
 <template>
+  <v-snackbar
+    v-model="globalStore.snackbar"
+    vertical
+    color="#f8f8f8"
+    class="custom-snackbar"
+    location-strategy="connected"
+    :target="[screenWith, 0]"
+  >
+    <div class="text-subtitle-1 pb-2">{{ globalStore.message }}</div>
+  </v-snackbar>
   <router-view/>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { useGlobalStore } from './presentation/store/GlobalStore';
+
+const globalStore = useGlobalStore();
+
+const screenWith = ref(window.innerWidth);
+
+</script>
 
 <style>
 #app {

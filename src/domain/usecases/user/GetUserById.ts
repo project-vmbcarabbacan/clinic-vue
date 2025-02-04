@@ -23,7 +23,8 @@ export class GetUserById {
       userData.data.user.information.address,
       userData.data.user.information.biography,
       userData.data.user.information.contact_number,
-      userData.data.user.achievements
+      userData.data.user.achievements,
+      userData.data.user.image,
     );
 
   }

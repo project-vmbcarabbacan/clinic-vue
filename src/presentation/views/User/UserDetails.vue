@@ -5,9 +5,21 @@
       <v-card class="mx-auto" max-width="800" width="600">
         <v-card-title class="d-flex justify-center align-center">
           <!-- Centered Avatar -->
-          <v-avatar size="120" class="mb-4">
-            <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="User Avatar" />
+          <v-avatar size="120" class="mb-4" @click="openFile">
+            <v-img :src="user.image" alt="User Avatar" cover />
           </v-avatar>
+          <v-file-input
+            style="display: none;"
+            v-model="imageFile"
+            label="Upload File"
+            accept=".jpg,.jpeg,.png,.pdf"
+            required
+            show-size
+            hint="Only .jpg, .jpeg, .png, and .pdf files are allowed."
+            id="fileInput"
+            @update:modelValue="convertToBase64"
+            ref="imageUpload"
+          ></v-file-input>
         </v-card-title>
 
         <!-- User Name and Position -->
@@ -100,10 +112,40 @@
 </template>
 
 <script setup lang="ts">
+import { ref, inject } from 'vue';
 import { useUserStore } from '@/presentation/store/UserStore';
+import { useGlobalStore } from '@/presentation/store/GlobalStore';
+import { UpdateOne } from '@/domain/usecases/user/UpdateOne';
 
 const userStore = useUserStore();
-
+const globalStore = useGlobalStore();
+const imageFile = ref(null); // Flag to check if form is submitted
+const imageUpload = ref();
 const { user } = userStore;
+
+function openFile() {
+  imageUpload.value.click();
+}
+
+const updateOne = inject('updateOne') as UpdateOne;
+
+async function uploadFile(file: string) {
+  await userStore.updateOneUser({ value: file, id: user.id }, 'image', updateOne);
+}
+
+async function convertToBase64(file: File) {
+  if (!file) return;
+
+  const reader = new FileReader();
+  const size = file.size / 1024 / 1024; // to get mb
+  if (size <= 2) {
+    reader.onloadend = async () => uploadFile(reader.result); // Remove data URL prefix
+    reader.readAsDataURL(file);
+  } else {
+    imageFile.value = null;
+    globalStore.updateData(true, 'Image size must be less than 2mb');
+    imageUpload.value.reset();
+  }
+}
 
 </script>

@@ -29,7 +29,7 @@ export const userApi = {
   },
   change: async (data: IChange, type: string) => {
     try {
-      return await apiClient.patch(Urls.CHANGE(type), data)
+      return await apiClient.post(Urls.CHANGE(type), data)
     } catch (error: any) {
       return error.response
     }

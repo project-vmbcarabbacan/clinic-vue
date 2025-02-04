@@ -8,7 +8,7 @@
       style="height: 100%;
     ">
     <v-list-item
-            prepend-avatar="@/presentation/assets/images/profile.png"
+            :prepend-avatar="user.image"
             :subtitle="user.username"
             :title="user.name"
             class="text-start"

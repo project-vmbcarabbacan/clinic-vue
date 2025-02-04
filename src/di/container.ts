@@ -19,6 +19,7 @@ import { EditAchievement } from '@/domain/usecases/user/EditAchievement';
 import { Signin } from '@/domain/usecases/authentication/Signin';
 import { Logout } from '@/domain/usecases/authentication/Logout';
 import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
+import { UpdateOne } from '@/domain/usecases/user/UpdateOne';
 
 const container = new Container();
 
@@ -30,6 +31,7 @@ container.bind<UpdateData>(UpdateData).toSelf();
 container.bind<AddAchievement>(AddAchievement).toSelf();
 container.bind<EditAchievement>(EditAchievement).toSelf();
 container.bind<GetAchievementById>(GetAchievementById).toSelf();
+container.bind<UpdateOne>(UpdateOne).toSelf();
 container.bind<Signin>(Signin).toSelf();
 container.bind<Logout>(Logout).toSelf();
 
@@ -43,6 +45,7 @@ function provideDependencies(app: App) {
   const addAchievementInstance = container.get<AddAchievement>(AddAchievement);
   const editAchievementInstance = container.get<EditAchievement>(EditAchievement);
   const getAchievementByIdInstance = container.get<GetAchievementById>(GetAchievementById);
+  const updateOneInstance = container.get<UpdateOne>(UpdateOne);
   const LogoutInstance = container.get<Logout>(Logout);
 
   app.provide('signIn', signInInstance);
@@ -53,6 +56,7 @@ function provideDependencies(app: App) {
   app.provide('addAchievement', addAchievementInstance);
   app.provide('editAchievement', editAchievementInstance);
   app.provide('getAchievementById', getAchievementByIdInstance);
+  app.provide('updateOne', updateOneInstance);
 }
 
 export { container, provideDependencies };

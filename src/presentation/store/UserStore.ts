@@ -5,12 +5,13 @@ import { GetCurrentUser } from '@/domain/usecases/user/GetCurrentUser';
 import { GetUserById } from '@/domain/usecases/user/GetUserById';
 import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
 import Types from '@/utils/Types';
-import { IUpdateUser, IAchievementAdd, IAchievementUpdate } from '@/utils/Type';
+import { IUpdateUser, IAchievementAdd, IAchievementUpdate, IChange } from '@/utils/Type';
 import { User } from '@/domain/models/User';
 import { Achievement } from '@/domain/models/Achievement';
 import { UpdateData } from '@/domain/usecases/user/UpdateData';
 import { AddAchievement } from '@/domain/usecases/user/AddAchievement';
 import { EditAchievement } from '@/domain/usecases/user/EditAchievement';
+import { UpdateOne } from '@/domain/usecases/user/UpdateOne';
 import moment from 'moment';
 
 export const useUserStore = defineStore(Types.USER, {
@@ -102,6 +103,20 @@ export const useUserStore = defineStore(Types.USER, {
 
       try {
         await updateData.execute(data);
+      } catch (err) {
+        this.error = (err as Error).message;
+      } finally {
+        this.update_loader = false;
+      }
+
+    },
+
+    async updateOneUser(data: IChange, type: string, updateOne: UpdateOne) {
+      this.update_loader = true;
+      this.error = null;
+
+      try {
+        await updateOne.execute(data, type);
       } catch (err) {
         this.error = (err as Error).message;
       } finally {

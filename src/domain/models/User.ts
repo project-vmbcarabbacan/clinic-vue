@@ -14,6 +14,7 @@ export class User {
     public address: string,
     public biography: string,
     public contact_number: Array<INumber>,
-    public achievements: Array<Achievement>
+    public achievements: Array<Achievement>,
+    public image: string
   ) { }
 }

@@ -94,8 +94,9 @@ export type ICurrentUser = {
   email: string;
   username: string;
   role: number;
-  information: IInformation
-  achievements: Array<Achievement>
+  information: IInformation;
+  achievements: Array<Achievement>;
+  image: string;
 }
 
 export type IUserRes = {
