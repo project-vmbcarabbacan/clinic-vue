@@ -78,7 +78,7 @@ const rules = {
   username: (value: string) => !!value || 'Username is required.',
 };
 
-const signIn = inject('signIn') as Signin;
+const signIn = inject<Signin>('signIn');
 
 const submit = async () => {
   if (signIn) {

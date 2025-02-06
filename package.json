@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
@@ -20,6 +20,7 @@
     "moment-timezone": "^0.5.47",
     "pinia": "^2.3.1",
     "reflect-metadata": "^0.2.2",
+    "socket.io-client": "^4.8.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuetify": "^3.7.7"
@@ -64,7 +65,14 @@
     "parserOptions": {
       "ecmaVersion": 2020
     },
-    "rules": {},
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": false
+        }
+      ]
+    },
     "overrides": [
       {
         "files": [
@@ -73,6 +81,9 @@
         ],
         "env": {
           "jest": true
+        },
+        "rules": {
+          "import/no-extraneous-dependencies": "off"
         }
       }
     ]

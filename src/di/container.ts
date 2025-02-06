@@ -21,6 +21,9 @@ import { Logout } from '@/domain/usecases/authentication/Logout';
 import { GetAchievementById } from '@/domain/usecases/user/GetAchievementById';
 import { UpdateOne } from '@/domain/usecases/user/UpdateOne';
 
+/* service */
+import { SocketService } from '@/domain/services/SocketServices';
+
 const container = new Container();
 
 container.bind<AbstractUserRepository>('AbstractUserRepository').to(UserRepository);
@@ -32,6 +35,7 @@ container.bind<AddAchievement>(AddAchievement).toSelf();
 container.bind<EditAchievement>(EditAchievement).toSelf();
 container.bind<GetAchievementById>(GetAchievementById).toSelf();
 container.bind<UpdateOne>(UpdateOne).toSelf();
+container.bind<SocketService>(SocketService).toSelf();
 container.bind<Signin>(Signin).toSelf();
 container.bind<Logout>(Logout).toSelf();
 
@@ -47,6 +51,7 @@ function provideDependencies(app: App) {
   const getAchievementByIdInstance = container.get<GetAchievementById>(GetAchievementById);
   const updateOneInstance = container.get<UpdateOne>(UpdateOne);
   const LogoutInstance = container.get<Logout>(Logout);
+  const socketServiceInstance = container.get<SocketService>(SocketService);
 
   app.provide('signIn', signInInstance);
   app.provide('getCurrentUser', getCurrentUserInstance);
@@ -57,6 +62,7 @@ function provideDependencies(app: App) {
   app.provide('editAchievement', editAchievementInstance);
   app.provide('getAchievementById', getAchievementByIdInstance);
   app.provide('updateOne', updateOneInstance);
+  app.provide('socketService', socketServiceInstance);
 }
 
 export { container, provideDependencies };

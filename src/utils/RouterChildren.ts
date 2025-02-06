@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { inject } from 'vue';
 // import { Route } from 'vue-router';
 import { GetUserById } from '@/domain/usecases/user/GetUserById';

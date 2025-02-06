@@ -149,6 +149,14 @@ export const useUserStore = defineStore(Types.USER, {
       } finally {
         this.update_loader = false;
       }
+    },
+
+    updateData(data: { email: string, image: string, name: string, status: string, username: string }) {
+      this.user.email = data.email;
+      this.user.image = data.image;
+      this.user.name = data.name;
+      this.user.status = data.status;
+      this.user.username = data.username;
     }
 
   },

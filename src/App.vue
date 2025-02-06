@@ -17,7 +17,6 @@ import { ref } from 'vue';
 import { useGlobalStore } from './presentation/store/GlobalStore';
 
 const globalStore = useGlobalStore();
-
 const screenWith = ref(window.innerWidth);
 
 </script>

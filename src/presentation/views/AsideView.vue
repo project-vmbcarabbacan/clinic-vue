@@ -1,4 +1,5 @@
 <template>
+  <SocketIo :channel="`user-${userStore.user.id}`" @message="updateUser" />
   <v-navigation-drawer  absolute permanent>
     <!-- Navigation List -->
     <v-list
@@ -8,9 +9,9 @@
       style="height: 100%;
     ">
     <v-list-item
-            :prepend-avatar="user.image"
-            :subtitle="user.username"
-            :title="user.name"
+            :prepend-avatar="userStore.user.image"
+            :subtitle="userStore.user.username"
+            :title="userStore.user.name"
             class="text-start"
           />
           <v-divider class="mb-6" />
@@ -21,7 +22,7 @@
         :key="child.name"
        >
         <v-list-item
-          v-if="child.meta.roles.includes(user.role) && child.show"
+          v-if="child.meta.roles.includes(userStore.user.role) && child.show"
           :class="child.class"
           :title="child.name"
           :to="child.path"
@@ -54,18 +55,21 @@ import { Logout } from '@/domain/usecases/authentication/Logout';
 import { useRouter } from 'vue-router';
 import { useAuthenticationStore } from '../store/AuthenticationStore';
 import { useUserStore } from '../store/UserStore';
+import SocketIo from '../components/SocketIo.vue';
 
 const authStore = useAuthenticationStore();
 const userStore = useUserStore();
 const router = useRouter();
-
-const { user } = userStore;
 
 const logout = inject('logout') as Logout;
 
 async function signOut() {
   await authStore.logout(logout);
   router.push({ name: 'AthenticationSignin' });
+}
+
+function updateUser(data: any) {
+  userStore.updateData(data.user);
 }
 
 </script>
